@@ -1,4 +1,4 @@
-module EasyAuth::OAuth1::Models
+module EasyAuth::Oauth::Models
   extend ActiveSupport::Autoload
 
   autoload :Account

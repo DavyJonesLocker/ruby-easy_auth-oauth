@@ -1,27 +1,27 @@
 require 'spec_helper'
 
-describe EasyAuth::OAuth1::Models::Account do
+describe EasyAuth::Oauth::Models::Account do
   describe 'o_auth_identities relationship' do
     before do
       class OtherIdentity < Identity; end
-      class OAuth1IdentityA < Identities::OAuth1::Base; end
-      class OAuth1IdentityB < Identities::OAuth1::Base; end
+      class OauthIdentityA < Identities::Oauth::Base; end
+      class OauthIdentityB < Identities::Oauth::Base; end
 
       @user = create(:user)
       @other_identity = OtherIdentity.create(:account => @user)
-      @o_auth1_identity_a = OAuth1IdentityA.create(:account => @user)
-      @o_auth1_identity_b = OAuth1IdentityB.create(:account => @user)
+      @oauth_identity_a = OauthIdentityA.create(:account => @user)
+      @oauth_identity_b = OauthIdentityB.create(:account => @user)
     end
     after do
       Object.send(:remove_const, :OtherIdentity)
-      Object.send(:remove_const, :OAuth1IdentityA)
-      Object.send(:remove_const, :OAuth1IdentityB)
+      Object.send(:remove_const, :OauthIdentityA)
+      Object.send(:remove_const, :OauthIdentityB)
     end
 
     it 'only returns OAuth identities' do
-      @user.o_auth1_identities.should_not include(@other_identity)
-      @user.o_auth1_identities.should     include(@o_auth1_identity_a)
-      @user.o_auth1_identities.should     include(@o_auth1_identity_b)
+      @user.oauth_identities.should_not include(@other_identity)
+      @user.oauth_identities.should     include(@oauth_identity_a)
+      @user.oauth_identities.should     include(@oauth_identity_b)
     end
   end
 end

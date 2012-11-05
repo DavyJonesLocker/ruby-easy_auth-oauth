@@ -1,6 +1,6 @@
 require 'oauth'
 
-module EasyAuth::Models::Identities::OAuth1::Base
+module EasyAuth::Models::Identities::Oauth::Base
   def self.included(base)
     base.class_eval do
       serialize :token, Hash
@@ -30,11 +30,11 @@ module EasyAuth::Models::Identities::OAuth1::Base
     end
 
     def new_session(controller)
-      controller.redirect_to authenticate_url(controller.o_auth1_callback_url(:provider => provider), controller.session)
+      controller.redirect_to authenticate_url(controller.oauth_callback_url(:provider => provider), controller.session)
     end
 
     def get_access_token(identity)
-      OAuth::AccessToken.new client, identity.token[:token], identity.token[:secret]
+      ::OAuth::AccessToken.new client, identity.token[:token], identity.token[:secret]
     end
 
     private
@@ -56,7 +56,7 @@ module EasyAuth::Models::Identities::OAuth1::Base
     end
 
     def client
-      @client ||= OAuth::Consumer.new(client_id, secret, client_options)
+      @client ||= ::OAuth::Consumer.new(client_id, secret, client_options)
     end
 
     def authenticate_url(callback_url, session)
@@ -86,7 +86,7 @@ module EasyAuth::Models::Identities::OAuth1::Base
     end
 
     def settings
-      EasyAuth.o_auth1[provider]
+      EasyAuth.oauth[provider]
     end
 
     def provider

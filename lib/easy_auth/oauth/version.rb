@@ -1,5 +1,5 @@
 module EasyAuth
-  module OAuth1
+  module Oauth
     VERSION = '0.0.1'
   end
 end

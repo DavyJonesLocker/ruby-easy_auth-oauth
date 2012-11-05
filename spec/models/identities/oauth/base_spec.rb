@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe EasyAuth::Models::Identities::OAuth1::Base do
+describe EasyAuth::Models::Identities::Oauth::Base do
   context 'access tokens' do
     before do
       class TestIdentity < Identity
-        include(EasyAuth::Models::Identities::OAuth1::Base)
+        include(EasyAuth::Models::Identities::Oauth::Base)
       end
       TestIdentity.stubs(:client).returns(client)
     end
