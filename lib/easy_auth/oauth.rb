@@ -43,8 +43,8 @@ module EasyAuth
 
   self.oauth = {}
 
-  def self.oauth_client(provider, client_id, secret, scope = '')
-    oauth[provider] = OpenStruct.new :client_id => client_id, :secret => secret, :scope => scope || ''
+  def self.oauth_client(provider, client_id, secret)
+    oauth[provider] = OpenStruct.new :client_id => client_id, :secret => secret
   end
 end
 
