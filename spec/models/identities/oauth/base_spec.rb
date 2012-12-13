@@ -7,7 +7,7 @@ describe EasyAuth::Models::Identities::Oauth::Base do
 
       private
 
-      def self.retrieve_username(token)
+      def self.retrieve_uid(token)
         token.params[:user_id]
       end
     end
@@ -25,8 +25,8 @@ describe EasyAuth::Models::Identities::Oauth::Base do
   let(:identity) { TestIdentity.new :token => { :token => 'token', :secret => 'token-secret' } }
 
 
-  it { should     have_valid(:username).when('123') }
-  it { should_not have_valid(:username).when(nil, '') }
+  it { should     have_valid(:uid).when('123') }
+  it { should_not have_valid(:uid).when(nil, '') }
 
   context 'access tokens' do
     describe '.get_access_token' do
@@ -150,7 +150,7 @@ describe EasyAuth::Models::Identities::Oauth::Base do
 
       context 'identity already exists' do
         before do
-          TestIdentity.create(:username => '123', :token => {:token => '123', :secret => 'abc'})
+          TestIdentity.create(:uid => '123', :token => {:token => '123', :secret => 'abc'})
         end
 
         context 'linking to an existing account' do

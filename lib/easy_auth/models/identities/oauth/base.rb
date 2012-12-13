@@ -4,7 +4,7 @@ module EasyAuth::Models::Identities::Oauth::Base
   def self.included(base)
     base.class_eval do
       serialize :token, Hash
-      validates :username, :presence => true
+      validates :uid, :presence => true
       extend ClassMethods
     end
   end
@@ -17,8 +17,8 @@ module EasyAuth::Models::Identities::Oauth::Base
         access_token_secret = controller.session.delete('access_token_secret')
         request_token       = OAuth::RequestToken.new(client, oauth_token, access_token_secret)
         access_token        = request_token.get_access_token(:oauth_verifier => oauth_verifier)
-        username            = retrieve_username(access_token)
-        identity            = self.find_or_initialize_by_username username.to_s
+        uid            = retrieve_uid(access_token)
+        identity            = self.find_or_initialize_by_uid uid.to_s
         identity.token      = {:token => access_token.token, :secret => access_token.secret}
 
         unless controller.current_account && identity.account
@@ -64,7 +64,7 @@ module EasyAuth::Models::Identities::Oauth::Base
       { :site => site_url, :authorize_path => authorize_path }
     end
 
-    def retrieve_username(token)
+    def retrieve_uid(token)
       raise NotImplementedError
     end
 
