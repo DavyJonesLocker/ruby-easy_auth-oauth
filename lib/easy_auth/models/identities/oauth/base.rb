@@ -17,13 +17,23 @@ module EasyAuth::Models::Identities::Oauth::Base
         access_token_secret = controller.session.delete('access_token_secret')
         request_token       = OAuth::RequestToken.new(client, oauth_token, access_token_secret)
         access_token        = request_token.get_access_token(:oauth_verifier => oauth_verifier)
-        uid            = retrieve_uid(access_token)
+        uid                 = retrieve_uid(access_token)
         identity            = self.find_or_initialize_by_uid uid.to_s
         identity.token      = {:token => access_token.token, :secret => access_token.secret}
 
-        unless controller.current_account && identity.account
-          account = EasyAuth.account_model.create!(account_attributes(access_token.params)) if account.nil?
-          identity.account = controller.current_account
+        if controller.current_account
+          if identity.account
+            if identity.account != controller.current_account
+              controller.flash[:error] = 'Error!'
+              return nil
+            end
+          else
+            identity.account = controller.current_account
+          end
+        else
+          unless identity.account
+            identity.account = EasyAuth.account_model.create!(account_attributes(access_token.params))
+          end
         end
 
         identity.save!

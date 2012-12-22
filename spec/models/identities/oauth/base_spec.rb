@@ -107,7 +107,7 @@ describe EasyAuth::Models::Identities::Oauth::Base do
     end
 
     context 'success states' do
-      let(:controller) { OpenStruct.new(:params => { :oauth_token => '123', :oauth_verifier => 'test' }, :session => {}) }
+      let(:controller) { OpenStruct.new(:params => { :oauth_token => '123', :oauth_verifier => 'test' }, :session => {}, :flash => {}) }
       let(:identity) { TestIdentity.authenticate(controller) }
       before do
         controller.stubs(:oauth_callback_url).returns('')
@@ -150,7 +150,7 @@ describe EasyAuth::Models::Identities::Oauth::Base do
 
       context 'identity already exists' do
         before do
-          TestIdentity.create(:uid => '123', :token => {:token => '123', :secret => 'abc'})
+          @test_identity = TestIdentity.create(:uid => '123', :token => {:token => '123', :secret => 'abc'})
         end
 
         context 'linking to an existing account' do
@@ -171,6 +171,21 @@ describe EasyAuth::Models::Identities::Oauth::Base do
             expect {
               identity
             }.to_not change { TestIdentity.count }
+          end
+
+          context 'identity account and current account mismatch' do
+            before do
+              @test_identity.update_attribute(:account, create(:user))
+            end
+
+            it 'returns nil' do
+              identity.should be_nil
+            end
+
+            it 'sets the flash error' do
+              identity
+              controller.flash[:error].should_not be_nil
+            end
           end
         end
 
