@@ -15,13 +15,13 @@ module EasyAuth::Models::Identities::Oauth::Base
       access_token_secret = controller.session.delete('access_token_secret')
       request_token       = OAuth::RequestToken.new(client, oauth_token, access_token_secret)
       token               = request_token.get_access_token(:oauth_verifier => oauth_verifier)
-      username            = retrieve_username(token)
-      identity            = self.find_or_initialize_by_username username.to_s
+      uid                 = retrieve_uid(token)
+      identity            = self.find_or_initialize_by_uid uid.to_s
       identity.token      = {:token => token.token, :secret => token.secret}
       account             = controller.current_account
 
       if identity.new_record?
-        account = EasyAuth.account_model.create(username_attribute => identity.username) if account.nil?
+        account = EasyAuth.account_model.create(username_attribute => identity.uid) if account.nil?
         identity.account = account
       end
 
@@ -55,7 +55,7 @@ module EasyAuth::Models::Identities::Oauth::Base
       raise NotImplementedError
     end
 
-    def retrieve_username(token)
+    def retrieve_uid(token)
       raise NotImplementedError
     end
 
