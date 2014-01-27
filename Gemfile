@@ -1,12 +1,5 @@
-source "http://rubygems.org"
+source 'https://rubygems.org'
 
+gem 'easy_auth', github: 'dockyard/easy_auth', ref: '54691011fa'
 # Only install appropriate ruby debugger if we are not on travis
-unless ENV['CI']
-  if RUBY_VERSION >= '1.9.2' && RUBY_ENGINE == 'ruby'
-    gem 'debugger'
-  end
-  if RUBY_VERSION == '1.8.7'
-    gem 'ruby-debug'
-  end
-end
 gemspec
