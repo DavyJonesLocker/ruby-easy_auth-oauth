@@ -1,14 +1,5 @@
-require 'rubygems'
-begin
-  require 'debugger'
-rescue LoadError
-end
-begin
-  require 'ruby-debug'
-rescue LoadError
-end
 require 'bundler/setup'
-
+require 'byebug'
 require 'rspec'
 require 'valid_attribute'
 require 'factory_girl'
@@ -24,4 +15,5 @@ Dir[File.join(ENGINE_RAILS_ROOT, 'spec/config/**/*.rb')].each { |f| require f }
 RSpec.configure do |config|
   config.mock_with :mocha
   config.include Factory::Syntax::Methods
+  config.backtrace_clean_patterns = []
 end

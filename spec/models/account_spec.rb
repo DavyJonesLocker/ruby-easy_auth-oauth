@@ -8,9 +8,9 @@ describe EasyAuth::Oauth::Models::Account do
       class OauthIdentityB < Identities::Oauth::Base; end
 
       @user = create(:user)
-      @other_identity   = OtherIdentity.create(:account => @user,  :uid => @user.email)
-      @oauth_identity_a = OauthIdentityA.create(:account => @user, :uid => @user.email)
-      @oauth_identity_b = OauthIdentityB.create(:account => @user, :uid => @user.email)
+      @other_identity   = OtherIdentity.create(:account => @user,  :uid => @user.email, token: 'test')
+      @oauth_identity_a = OauthIdentityA.create(:account => @user, :uid => @user.email, token: {:token => '123', :secret => 'abc'})
+      @oauth_identity_b = OauthIdentityB.create(:account => @user, :uid => @user.email, token: {:token => '123', :secret => 'abc'})
     end
 
     after do

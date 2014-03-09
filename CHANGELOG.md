@@ -1,0 +1,5 @@
+### EasyAuth-OAuth 0.2.0
+
+* Rewrote account creation to delegate to account controller's create
+  action
+* Extracted authentication strategy into EasyAuth-OAuthCore gem
