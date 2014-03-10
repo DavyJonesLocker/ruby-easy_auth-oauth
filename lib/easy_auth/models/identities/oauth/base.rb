@@ -17,11 +17,11 @@ module EasyAuth::Models::Identities::Oauth::Base
         access_token_secret = controller.session.delete('access_token_secret')
         request_token       = OAuth::RequestToken.new(client, oauth_token, access_token_secret)
         token               = request_token.get_access_token(:oauth_verifier => oauth_verifier)
-        user_attributes     = get_user_attributes(token)
-        identity            = self.find_or_initialize_by(uid: retrieve_uid(user_attributes))
+        account_attributes     = get_account_attributes(token)
+        identity            = self.find_or_initialize_by(uid: retrieve_uid(account_attributes))
         identity.token      = {:token => token.token, :secret => token.secret}
 
-        [identity, user_attributes]
+        [identity, account_attributes]
       end
     end
 
@@ -41,8 +41,12 @@ module EasyAuth::Models::Identities::Oauth::Base
       { :site => site_url, :authorize_path => authorize_path }
     end
 
-    def get_user_attributes(token)
+    def get_account_attributes(token)
       token.params
+    end
+
+    def version
+      :oauth
     end
 
     def client

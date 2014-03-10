@@ -47,8 +47,8 @@ describe EasyAuth::Models::Identities::Oauth::Base do
 
       private
 
-      def self.retrieve_uid(user_attributes)
-        user_attributes[:user_id]
+      def self.retrieve_uid(account_attributes)
+        account_attributes[:user_id]
       end
     end
   end
