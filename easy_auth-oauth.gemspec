@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = EasyAuth::Oauth::VERSION
   s.authors     = ['Brian Cardarella', 'Dan McClain']
   s.email       = ['brian@dockyard.com', 'bcardarella@gmail.com', 'rubygems@danmcclain.net']
-  s.homepage    = 'https://github.com/dockyard/easy_auth-oauth'
+  s.homepage    = 'https://github.com/dockyard/ruby-easy_auth-oauth'
   s.summary     = 'EasyAuth-Oauth'
   s.description = 'EasyAuth-Oauth'
 
